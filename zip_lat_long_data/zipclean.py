@@ -11,10 +11,12 @@ with open("nyczips.csv") as raw_zips_csv, open("ziplatlong.csv") as lat_long_csv
     # that dont coorespond to geographic areas
     lat_long_reader = csv.reader(lat_long_csv)
     results = filter(lambda row: row[0] in nyc_zip_array, lat_long_reader)
+
+    # format the data for json
     results_dict = {}
     for zip_code, lat, lon in results:
         results_dict[zip_code] = [float(lat), float(lon)]
 
     # output to json file usable by app
-    with open("nyc_zips.json", "w") as f:
+    with open("../nyc_zips.json", "w") as f:
         json.dump(results_dict, f)
