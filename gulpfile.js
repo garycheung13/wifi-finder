@@ -12,18 +12,8 @@ gulp.task('serve', ['scss'], function() {
     });
 
     gulp.watch(["scss/*", "scss/**/*"], ['scss']);
-    gulp.watch(["*.html"]).on('change', bs.reload);
+    gulp.watch(["*.html, main.js"]).on('change', bs.reload);
 });
-
-// gulp.task('serve', gulp.series('scss', function(){
-//     bs.init({
-//         server: "./"
-//     });
-
-//     gulp.watch("scss/*/**", ['scss']);
-//     gulp.watch(["*.html"]).on('change', bs.reload);
-// }))
-
 
 gulp.task("scss", function () {
     gulp.src("scss/main.scss")

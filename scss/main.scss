@@ -1,7 +1,11 @@
-h1 {
-    font-size: 25px;
-}
+//abstracts
+@import "abstract/variables";
 
-h2 {
-    font-size: 20px;
-}
+//base
+@import "base/base";
+@import "base/typography";
+
+// components
+@import "components/map";
+@import "components/result-card";
+@import "components/search-bar";
