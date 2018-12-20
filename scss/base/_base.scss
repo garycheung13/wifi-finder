@@ -17,14 +17,17 @@ a, a:visited {
 input[type=number] {
     border: none;
     outline: none;
+    -moz-appearance: textfield; //removes the spinner in firefox
 }
 
-// removes the arrow from number input type
+// removes the arrow from number input type for chrome
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
 
 .container {
     max-width: 1200px;
