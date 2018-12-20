@@ -1,0 +1,32 @@
+// basic resets
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+    // html, body {
+    //     height: 100%;
+    // }
+
+a, a:visited {
+    text-decoration: none;
+}
+
+
+input[type=number] {
+    border: none;
+    outline: none;
+}
+
+// removes the arrow from number input type
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}

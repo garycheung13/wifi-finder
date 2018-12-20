@@ -5,7 +5,10 @@
 @import "base/base";
 @import "base/typography";
 
+//layout
+@import "layout/content";
+
 // components
 @import "components/map";
 @import "components/result-card";
-@import "components/search-bar";
+@import "components/search";

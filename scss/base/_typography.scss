@@ -1,0 +1,15 @@
+@mixin nav-text($font-size) {
+    font-family: "Lato", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: $font-size;
+}
+
+@mixin nav-all-caps($font-size) {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    text-transform: uppercase;
+    font-size: $font-size;
+    letter-spacing: 2px;
+}

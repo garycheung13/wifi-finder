@@ -1,0 +1,28 @@
+.content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content-results, .content-map {
+    width: 50%;
+}
+
+.content-results {
+    height: 92.5vh;
+    overflow-y: scroll;
+}
+
+.content-results__heading {
+    border-bottom: 1px solid rgb(199, 199, 199);
+}
+
+.content-map {
+    background-color: blue;
+}
+
+.filler {
+    height: 300px;
+    width: 100%;
+    background-color: green;
+    border-bottom: 1px solid #000;
+}

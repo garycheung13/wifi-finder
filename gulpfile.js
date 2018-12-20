@@ -6,13 +6,12 @@ var bs = require("browser-sync").create();
 
 
 gulp.task('serve', ['scss'], function() {
-
     bs.init({
         server: "./"
     });
 
     gulp.watch(["scss/*", "scss/**/*"], ['scss']);
-    gulp.watch(["*.html, dist/js/*"]).on('change', bs.reload);
+    gulp.watch(["*.html", "dist/js/*.js"]).on('change', bs.reload);
 });
 
 gulp.task("scss", function () {
