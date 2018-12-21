@@ -6,29 +6,67 @@
 // .then(res => res.json())
 // .then(data => console.log(data))
 
-var planes = [
-    ["7C6B07",-40.99497,174.50808],
-    ["7C6B38",-41.30269,173.63696],
-    ["7C6CA1",-41.49413,173.5421],
-    ["7C6CA2",-40.98585,174.50659],
-    ["C81D9D",-40.93163,173.81726],
-    ["C82009",-41.5183,174.78081],
-    ["C82081",-41.42079,173.5783],
-    ["C820AB",-42.08414,173.96632],
-    ["C820B6",-41.51285,173.53274]
-    ];
+// var planes = [
+//     ["7C6B07",-40.99497,174.50808],
+//     ["7C6B38",-41.30269,173.63696],
+//     ["7C6CA1",-41.49413,173.5421],
+//     ["7C6CA2",-40.98585,174.50659],
+//     ["C81D9D",-40.93163,173.81726],
+//     ["C82009",-41.5183,174.78081],
+//     ["C82081",-41.42079,173.5783],
+//     ["C820AB",-42.08414,173.96632],
+//     ["C820B6",-41.51285,173.53274]
+//     ];
 
-    var map = L.map('map').setView([-41.3058, 174.82082], 8);
-    mapLink =
-        '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-    L.tileLayer(
-        'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; ' + mapLink + ' Contributors',
-        maxZoom: 18,
-        }).addTo(map);
+//     var map = L.map('map').setView([-41.3058, 174.82082], 8);
+//     mapLink =
+//         '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+//     L.tileLayer(
+//         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//         attribution: '&copy; ' + mapLink + ' Contributors',
+//         maxZoom: 18,
+//         }).addTo(map);
 
-    for (var i = 0; i < planes.length; i++) {
-        marker = new L.marker([planes[i][1],planes[i][2]])
-            .bindPopup(planes[i][0])
-            .addTo(map);
-    }
+//     for (var i = 0; i < planes.length; i++) {
+//         marker = new L.marker([planes[i][1],planes[i][2]])
+//             .bindPopup(planes[i][0])
+//             .addTo(map);
+//     }
+
+let centerCoords = "";
+
+document.getElementById("zip-search").addEventListener("submit", function(e){
+    // prevent the submit refresh
+    e.preventDefault();
+    // clear previous search information
+    document.getElementById("message-entry").innerHTML = "";
+    const inputZipCode = document.getElementById("zip-input").value;
+    // look up the centroid lat/long for the zip code
+    fetch("/nyc_zips.json")
+        .then(res => res.json())
+        .then(data => {
+            const inputCoords = data[inputZipCode];
+
+            // if it was found, procced to lookup the hotspots
+            if (inputCoords) {
+                centerCoords = inputCoords;
+                return fetch(`https://data.cityofnewyork.us/resource/24t3-xqyv.json?$where=within_circle(location_lat_long,${inputCoords[0]},${inputCoords[1]},1000)`)
+            // if not found throw error
+            } else {
+                throw new Error("The zip code entered does not return any results");
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(centerCoords);
+            console.log(data);
+        })
+        .catch(err => {
+            const errorTemplate = `
+                <div class="content-results__message" id="message">
+                    <p>${err.message}</p>
+                </div>`
+            document.getElementById("message-entry").innerHTML = errorTemplate;
+        })
+
+})

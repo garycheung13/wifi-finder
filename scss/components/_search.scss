@@ -1,17 +1,17 @@
 .search {
     background-color: $ui-dark-blue;
-    height: 7.5vh;
+    height: 10vh;
     display: flex;
     align-items: center;
 
-    span {
-        @include nav-text(1.25rem);
+    label {
+        @include heading(1.25rem);
         color: white;
     }
 }
 
 .search-input {
-    @include nav-text(1.15rem);
+    @include heading(1.15rem);
     margin-left: 10px;
     margin-right: 10px;
 }
