@@ -1,9 +1,23 @@
+//colors
 $ui-dark-blue: rgb(0, 87, 146) !default;
 $ui-mid-blue: rgb(85, 205, 226) !default;
 $ui-mid-blue-hover: rgb(34, 180, 206) !default;
-$ui-dark-orange: rgb(255, 159, 1) !default;
-$ui-light-orange: rgb(255, 205, 123) !default;
+$ui-dark-orange: rgb(255, 103, 1) !default;
+$ui-light-orange: rgb(241, 104, 62) !default;
 $blue-dark-gray: rgb(35, 54, 84) !default;
 $shadow-black: rgb(43, 42, 42) !default;
 $light-gray: rgb(199, 199, 199) !default;
 $soft-tint: rgb(230, 230, 230) !default;
+
+//breakpoints
+$breakpoints: (
+    small: 767px,
+    medium: 991px,
+    large: 1199px
+);
+
+$at_least_points: (
+    medium: 768px,
+    large: 992px,
+    extra_large: 1200px
+);

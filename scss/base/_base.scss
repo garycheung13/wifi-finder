@@ -5,10 +5,6 @@
     box-sizing: border-box;
 }
 
-    // html, body {
-    //     height: 100%;
-    // }
-
 a, a:visited {
     text-decoration: none;
 }
@@ -17,6 +13,19 @@ a, a:visited {
 input[type=text] {
     border: none;
     outline: none;
+}
+
+// reponsive rem settings
+html {
+    font-size: 14px;
+
+    @include breakpoint-min(medium) {
+        font-size: 16px;
+    }
+
+    @include breakpoint-min(large) {
+        font-size: 18px;
+    }
 }
 
 .container {

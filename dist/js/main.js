@@ -25,7 +25,7 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     }
 }
 
-// map initial setup
+// *** map initial setup
 const wifiMarkersGroup = L.featureGroup();
 // center the map on central park by default
 const map = L.map('map', {
@@ -43,10 +43,12 @@ let centerCoords = "";
 const resultsContainer = document.getElementById("results-container");
 const messageEntry = document.getElementById("message-entry");
 
+// make the hotspot search on submit
+// if successful, perform DOM changes to display results and perform map changes
+// otherwise, show error message
 document.getElementById("zip-search").addEventListener("submit", function (e) {
     // prevent the default submit refresh
     e.preventDefault();
-
     // clear markers from previous search
     wifiMarkersGroup.clearLayers();
     // remove last search's information from DOM
@@ -66,7 +68,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                 return fetch(`https://data.cityofnewyork.us/resource/24t3-xqyv.json?$where=within_circle(location_lat_long,${inputCoords[0]},${inputCoords[1]},4000)`)
             } else {
                 // if not found throw error
-                throw new Error("The zip code entered does not return any results");
+                throw new Error("Your search did not return any results. Please enter a zip code a NYC neighborhood.");
             }
         })
         .then(res => res.json())
@@ -101,7 +103,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                 </div>`;
             }).join(''); // empty string join needed for removing commas
 
-            // insert data into map
+            // insert data into map as markers
             map.panTo(centerCoords, {animate: true});
             sortedData.forEach(function(d, i){
                 L.marker([d.latitude, d.longitude])

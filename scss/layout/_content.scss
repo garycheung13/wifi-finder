@@ -1,19 +1,43 @@
 .content {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
 }
 
 .content-results, .content-map {
     width: 50%;
+
+    @include breakpoint-max(medium) {
+        width: 100%;
+    }
 }
 
 .content-results {
     height: 90vh;
+
+    @include breakpoint-max(medium) {
+        height: 55vh;
+    }
+}
+
+#results-container {
+    height: 100%;
     overflow-y: scroll;
+    padding-top: 50px;
+}
+
+.content-map {
+    background-color: $light-gray;
+
+    @include breakpoint-max(medium) {
+        height: 35vh;
+    }
 }
 
 .content-results__heading {
     border-bottom: 1px solid $light-gray;
+    position: absolute;
+    width: 100%;
+    background-color: white;
 
     h2 {
         @include heading(1.5rem);
@@ -45,10 +69,14 @@
     }
 
     p {
-        @include heading-bold(2rem);
+        @include heading-bold(1.7rem);
+        text-align: center;
     }
-}
 
-.content-map {
-    background-color: $light-gray;
+    @include breakpoint-max(medium) {
+        img {
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+    }
 }
