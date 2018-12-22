@@ -5,6 +5,10 @@
     display: flex;
     flex-wrap: wrap;
     padding: 25px 15px;
+
+    &:hover {
+        background-color: $soft-tint;
+    }
 }
 
 .results-card__primary, .results-card__details, .results-card__extras {
@@ -15,11 +19,11 @@
     margin-bottom: 25px;
 
     h3 {
-        @include heading-bold(1.75rem);
+        @include heading-bold(1.95rem);
     }
 
     h4 {
-        @include heading(1.55rem);
+        @include heading(1.40rem);
         color: grey;
         margin-top: 7.5px;
     }
@@ -31,6 +35,7 @@
     span {
         @include light-text(1.35rem);
         padding-right: 15px;
+        text-transform: uppercase;
     }
 }
 
@@ -40,6 +45,10 @@
 
     a, span {
         @include light-text(1.075rem);
+    }
+
+    a {
+        text-decoration: underline;
     }
 }
 

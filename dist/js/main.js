@@ -1,8 +1,5 @@
-// fetch("https://data.cityofnewyork.us/resource/24t3-xqyv.json?$where=within_circle(location_lat_long,40.605982,%20-73.999860,%201000)")
-// .then(res => res.json())
-// .then(data => console.log(data))
-
-// function copied from https://www.geodatasource.com/developers/javascript
+// lat/lon distance function
+// taken from https://www.geodatasource.com/developers/javascript
 function distance(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
         return 0;
@@ -28,69 +25,96 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     }
 }
 
-// var planes = [
-//     ["7C6B07", -40.99497, 174.50808],
-//     ["7C6B38", -41.30269, 173.63696],
-//     ["7C6CA1", -41.49413, 173.5421],
-//     ["7C6CA2", -40.98585, 174.50659],
-// ];
+// map initial setup
+const wifiMarkersGroup = L.featureGroup();
+// center the map on central park by default
+const map = L.map('map', {
+    center: [40.766526, -73.976472],
+    zoom: 15,
+    layers: [wifiMarkersGroup]
+});
 
-var map = L.map('map').setView([40.766526, -73.976472], 15);
-mapLink =
-    '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-L.tileLayer(
-    'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; ' + mapLink + ' Contributors',
+L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> Contributors',
         maxZoom: 18,
     }).addTo(map);
 
-// for (var i = 0; i < planes.length; i++) {
-//     marker = new L.marker([planes[i][1], planes[i][2]])
-//         .bindPopup(planes[i][0])
-//         .addTo(map);
-// }
-
 let centerCoords = "";
+const resultsContainer = document.getElementById("results-container");
+const messageEntry = document.getElementById("message-entry");
 
 document.getElementById("zip-search").addEventListener("submit", function (e) {
-    // prevent the submit refresh
+    // prevent the default submit refresh
     e.preventDefault();
-    // clear previous search information
-    document.getElementById("message-entry").innerHTML = "";
+
+    // clear markers from previous search
+    wifiMarkersGroup.clearLayers();
+    // remove last search's information from DOM
+    resultsContainer.innerHTML = "";
+    messageEntry.innerHTML = "";
+
     const inputZipCode = document.getElementById("zip-input").value;
 
-    // look up the centroid lat/long for the zip code
+    // look up the centroid lat/long for the zip code from the local json file
     fetch("/nyc_zips.json")
         .then(res => res.json())
         .then(data => {
             const inputCoords = data[inputZipCode];
-            // if it was found, procced to lookup the hotspots
+            // if it was found, procced to make api call to lookup the hotspot locations
             if (inputCoords) {
                 centerCoords = inputCoords;
-                return fetch(`https://data.cityofnewyork.us/resource/24t3-xqyv.json?$where=within_circle(location_lat_long,${inputCoords[0]},${inputCoords[1]},500)`)
-            // if not found throw error
+                return fetch(`https://data.cityofnewyork.us/resource/24t3-xqyv.json?$where=within_circle(location_lat_long,${inputCoords[0]},${inputCoords[1]},4000)`)
             } else {
+                // if not found throw error
                 throw new Error("The zip code entered does not return any results");
             }
         })
         .then(res => res.json())
         .then(data => {
-            // sort by distance from zip code centroid
-            const sortedData = data.sort(function(a, b) {
+            // sort by distance from zip code centroid using the lat/long distance formula
+            // then truncate to first five entries
+            const sortedData = data.sort(function (a, b) {
                 const distanceA = distance(centerCoords[0], centerCoords[1], a.latitude, a.longitude);
                 const distanceB = distance(centerCoords[0], centerCoords[1], b.latitude, b.longitude);
-
                 return distanceA - distanceB;
-            });
+            }).slice(0, 5);
 
-            console.log(sortedData);
+            //hide the placeholder
+            document.getElementById("results-placeholder").style.display = "none";
+
+            // create the html for each result and attach to DOM
+            resultsContainer.innerHTML = sortedData.map((d, i) => {
+                return `
+                <div class="results-card">
+                    <div class="results-card__primary">
+                        <h3>${i + 1}. ${d.name}</h3>
+                        <h4>Provided by: ${d.provider}</h4>
+                    </div>
+                    <div class="results-card__details">
+                        <span> <img src="dist/images/location.svg" alt="location icon" class="results-card__icon">${d.location}</span>
+                        <span> <img src="dist/images/ssid.svg" alt="hotspot name" class="results-card__icon">${d.ssid}</span>
+                    </div>
+                    <div class="results-card__extras">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions (Google Maps)</a>
+                        <span> <img src="dist/images/info.svg" alt="information icon" class="results-card__icon">${d.type}</span>
+                    </div>
+                </div>`;
+            }).join(''); // empty string join needed for removing commas
+
+            // insert data into map
+            map.panTo(centerCoords, {animate: true});
+            sortedData.forEach(function(d, i){
+                L.marker([d.latitude, d.longitude])
+                    .bindPopup(`${i + 1}. ${d.name} <br> ${d.location} <br> <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions (Google Maps)</a>`)
+                    .addTo(wifiMarkersGroup);
+            });
+            map.fitBounds(wifiMarkersGroup.getBounds());
         })
         .catch(err => {
-            const errorTemplate = `
+            messageEntry.innerHTML = `
                 <div class="content-results__message" id="message">
                     <p>${err.message}</p>
                 </div>`
-            document.getElementById("message-entry").innerHTML = errorTemplate;
         })
 
 })
