@@ -94,18 +94,18 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                     </div>
                     <div class="results-card__details">
                         <div class="results-card__info">
-                            <img src="static/images/location.svg" alt="location icon" class="results-card__icon">
+                            <img src="static/images/location.svg" title="location" alt="location icon" class="results-card__icon">
                             ${d.location}
                         </div>
                         <div class="results-card__info">
-                            <img src="static/images/ssid.svg" alt="hotspot name" class="results-card__icon">
+                            <img src="static/images/ssid.svg" title="connection name" alt="connection name" class="results-card__icon">
                             ${d.ssid}
                         </div>
                     </div>
                     <div class="results-card__extras">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions (Google Maps)</a>
                         <div class="results-card__info">
-                            <img src="static/images/info.svg" alt="information icon" class="results-card__icon">${d.type}
+                            <img src="static/images/info.svg" title="information" alt="information icon" class="results-card__icon">${d.type}
                         </div>
                     </div>
                 </div>`;
