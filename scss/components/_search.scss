@@ -8,6 +8,14 @@
         @include heading(1.25rem);
         color: white;
     }
+
+    @include breakpoint-max(medium) {
+        label {
+            text-align: center;
+            display: block;
+            margin-bottom: 5px;
+        }
+    }
 }
 
 .search-input {
@@ -19,6 +27,11 @@
 .search-input, .search-btn {
     padding: 7px 15px;
     -webkit-appearance: none;
+
+    @include breakpoint-max(medium) {
+        display: inline-block;
+        padding: 3.5px 7.5px;
+    }
 }
 
 .search-btn {

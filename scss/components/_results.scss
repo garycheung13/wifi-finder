@@ -1,6 +1,5 @@
 .results-card {
     width: 100%;
-    // min-height: 250px;
     border-bottom: 1px solid $light-gray;
     display: flex;
     flex-wrap: wrap;
@@ -30,45 +29,33 @@
 }
 
 .results-card__details {
+    display: flex;
+    flex-wrap: wrap;
     margin-bottom: 35px;
+}
 
-    span {
-        @include light-text(1.15rem);
-        padding-right: 15px;
-        text-transform: uppercase;
-    }
-
-    @include breakpoint-max(medium) {
-
-        span {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-    }
+.results-card__info {
+    @include light-text(1.15rem);
+    padding-right: 25px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
 }
 
 .results-card__extras {
     display: flex;
     justify-content: space-between;
 
-    a, span {
-        @include light-text(1.075rem);
-    }
-
-    span {
-        display: flex;
-        align-items: center;
-    }
-
     a {
+        @include light-text(1.075rem);
         text-decoration: underline;
     }
 }
 
 .results-card__icon {
-    height: 20px;
-    width: auto;
+    width: 20px;
+    height: auto;
     margin-right: 5px;
 
     @include breakpoint-max(medium) {

@@ -13,6 +13,8 @@
 
 .content-results {
     height: 90vh;
+    display: flex; // for keeping the results header fixed to top
+    flex-direction: column;
 
     @include breakpoint-max(medium) {
         height: 55vh;
@@ -20,24 +22,12 @@
 }
 
 #results-container {
-    height: 100%;
     overflow-y: scroll;
-    padding-top: 50px;
-}
-
-.content-map {
-    background-color: $light-gray;
-
-    @include breakpoint-max(medium) {
-        height: 35vh;
-    }
 }
 
 .content-results__heading {
     border-bottom: 1px solid $light-gray;
-    position: absolute;
-    width: 100%;
-    background-color: white;
+    position: relative;
 
     h2 {
         @include heading(1.5rem);
@@ -78,5 +68,13 @@
             margin-top: 25px;
             margin-bottom: 25px;
         }
+    }
+}
+
+.content-map {
+    background-color: $light-gray;
+
+    @include breakpoint-max(medium) {
+        height: 35vh;
     }
 }

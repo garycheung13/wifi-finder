@@ -11,7 +11,7 @@ gulp.task('serve', ['scss'], function() {
     });
 
     gulp.watch(["scss/*", "scss/**/*"], ['scss']);
-    gulp.watch(["*.html", "dist/js/*.js"]).on('change', bs.reload);
+    gulp.watch(["*.html", "static/js/*.js"]).on('change', bs.reload);
 });
 
 gulp.task("scss", function () {
@@ -24,7 +24,7 @@ gulp.task("scss", function () {
             browsers: ["last 20 versions"]
         }))
         .pipe(rename("main.min.css"))
-        .pipe(gulp.dest("dist/css/"))
+        .pipe(gulp.dest("static/css/"))
         .pipe(bs.stream());
 });
 

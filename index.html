@@ -15,7 +15,7 @@
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
     <!-- own css -->
-    <link rel="stylesheet" href="dist/css/main.min.css">
+    <link rel="stylesheet" href="static/css/main.min.css">
     <title>Wi-Fi Finder</title>
 </head>
 
@@ -24,7 +24,7 @@
         <nav class="container">
             <form id="zip-search">
                 <label>Enter a 5-digit NYC zip code:</label>
-                <input type="text" pattern="[0-9]{5}" title="Five digit zip code" id="zip-input" class="search-input" />
+                <input type="text" pattern="[0-9]{5}" title="Five digit NYC zip code" id="zip-input" class="search-input" />
                 <button class="search-btn" type="submit" >Search</button>
             </form>
         </nav>
@@ -37,10 +37,9 @@
                 <div id="message-entry"></div>
             </div>
             <div id="results-container">
-
             </div>
             <div class="content-results__placeholder" id="results-placeholder">
-                <img src="dist/images/placeholder.svg" alt="search a zip code to begin">
+                <img src="static/images/placeholder.svg" alt="search a zip code to begin">
                 <p>Enter a zip code to begin search</p>
             </div>
         </div>
@@ -49,7 +48,7 @@
         </div>
     </main>
 
-    <script src="dist/js/main.js"></script>
+    <script src="static/js/main.js"></script>
 </body>
 
 </html>

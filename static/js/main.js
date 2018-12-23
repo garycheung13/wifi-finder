@@ -62,13 +62,13 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
         .then(res => res.json())
         .then(data => {
             const inputCoords = data[inputZipCode];
-            // if it was found, procced to make api call to lookup the hotspot locations
+            // if it was found, proceed to make api call to lookup the hotspot locations
             if (inputCoords) {
-                centerCoords = inputCoords;
+                centerCoords = inputCoords; // save new map center
                 return fetch(`https://data.cityofnewyork.us/resource/24t3-xqyv.json?$where=within_circle(location_lat_long,${inputCoords[0]},${inputCoords[1]},4000)`)
             } else {
                 // if not found throw error
-                throw new Error("Your search did not return any results. Please enter a zip code a NYC neighborhood.");
+                throw new Error("Your search did not return any results. Please check that you entered a zip code within NYC.");
             }
         })
         .then(res => res.json())
@@ -93,23 +93,43 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                         <h4>Provided by: ${d.provider}</h4>
                     </div>
                     <div class="results-card__details">
-                        <span> <img src="dist/images/location.svg" alt="location icon" class="results-card__icon">${d.location}</span>
-                        <span> <img src="dist/images/ssid.svg" alt="hotspot name" class="results-card__icon">${d.ssid}</span>
+                        <div class="results-card__info">
+                            <img src="static/images/location.svg" alt="location icon" class="results-card__icon">
+                            ${d.location}
+                        </div>
+                        <div class="results-card__info">
+                            <img src="static/images/ssid.svg" alt="hotspot name" class="results-card__icon">
+                            ${d.ssid}
+                        </div>
                     </div>
                     <div class="results-card__extras">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions (Google Maps)</a>
-                        <span> <img src="dist/images/info.svg" alt="information icon" class="results-card__icon">${d.type}</span>
+                        <div class="results-card__info">
+                            <img src="static/images/info.svg" alt="information icon" class="results-card__icon">${d.type}
+                        </div>
                     </div>
                 </div>`;
             }).join(''); // empty string join needed for removing commas
 
-            // insert data into map as markers
+
             map.panTo(centerCoords, {animate: true});
+            // insert data into map as markers
             sortedData.forEach(function(d, i){
-                L.marker([d.latitude, d.longitude])
-                    .bindPopup(`${i + 1}. ${d.name} <br> ${d.location} <br> <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions (Google Maps)</a>`)
-                    .addTo(wifiMarkersGroup);
+                // generate a icon with result number label
+                const numberedIcon = L.divIcon({
+                    className: "map-number-icon",
+                    iconSize: [25, 41],
+                    iconAnchor: [10, 44],
+                    popupAnchor: [3, -44],
+                    html: `<div class="map-number-icon-text">${i + 1}</div>`
+                });
+
+                L.marker([d.latitude, d.longitude], {icon: numberedIcon})
+                .bindPopup(`${i + 1}. ${d.name} <br> ${d.location} <br> <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions (Google Maps)</a>`)
+                .addTo(wifiMarkersGroup);
             });
+
+            // fit map to markers
             map.fitBounds(wifiMarkersGroup.getBounds());
         })
         .catch(err => {
