@@ -58,7 +58,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
     const inputZipCode = document.getElementById("zip-input").value;
 
     // look up the centroid lat/long for the zip code from the local json file
-    fetch("/nyc_zips.json")
+    fetch("/static/data/nyc_zips.json")
         .then(res => res.json())
         .then(data => {
             const inputCoords = data[inputZipCode];

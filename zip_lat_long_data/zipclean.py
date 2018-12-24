@@ -18,5 +18,5 @@ with open("nyczips.csv") as raw_zips_csv, open("ziplatlong.csv") as lat_long_csv
         results_dict[zip_code] = [float(lat), float(lon)]
 
     # output to json file usable by app
-    with open("../nyc_zips.json", "w") as f:
+    with open("../static/data/nyc_zips.json", "w") as f:
         json.dump(results_dict, f)
