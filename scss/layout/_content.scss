@@ -26,8 +26,8 @@
 }
 
 .content-results__heading {
-    border-bottom: 1px solid $light-gray;
     position: relative;
+    background-color: $ui-light-blue;
 
     h2 {
         @include heading(1.5rem);
@@ -41,9 +41,9 @@
     display: flex;
     align-items: center;
     min-height: 50px;
-    background-color: $ui-light-orange;
+    background-color: $ui-warning-orange;
     @include heading(1.25rem);
-    padding: 7.5px 15px;
+    padding: 15px 25px;
 }
 
 .content-results__placeholder {
