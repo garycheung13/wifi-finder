@@ -1,3 +1,7 @@
+.results-container {
+    overflow-y: scroll;
+}
+
 .results-card {
     width: 100%;
     border-bottom: 1px solid $light-gray;
@@ -28,23 +32,10 @@
     }
 }
 
-.results-container {
-    overflow-y: scroll;
-}
-
 .results-card__details {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 45px;
-}
-
-.results-card__info {
-    @include light-text(1.15rem);
-    padding-right: 25px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
 }
 
 .results-card__extras {
@@ -55,6 +46,15 @@
         @include light-text(1.075rem);
         text-decoration: underline;
     }
+}
+
+.results-card__info {
+    @include light-text(1.15rem);
+    padding-right: 25px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
 }
 
 .results-card__icon {

@@ -98,6 +98,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                 const distanceB = distance(centerCoords[0], centerCoords[1], b.latitude, b.longitude);
                 return distanceA - distanceB;
             }).slice(0, 5);
+            console.log(sortedData);
 
             //hide the placeholder
             document.getElementById("results-placeholder").style.display = "none";
@@ -107,7 +108,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                 return `
                 <div class="results-card">
                     <div class="results-card__primary">
-                        <h3>${i + 1}. ${d.name}</h3>
+                        <h3>${i + 1}. ${d.name ? d.name: "Unnamed Connection"}</h3>
                         <h4>Provided by: ${d.provider}</h4>
                     </div>
                     <div class="results-card__details">
@@ -142,7 +143,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                 });
 
                 L.marker([d.latitude, d.longitude], {icon: numberedIcon})
-                .bindPopup(`<h3>${i + 1}. ${d.name}</h3> <h4>${d.location}</h4> <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions</a>`)
+                .bindPopup(`<h3>${i + 1}. ${d.name ? d.name: "Unnamed Connection"}</h3> <h4>${d.location}</h4> <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions</a>`)
                 .addTo(wifiMarkersGroup);
             });
 
