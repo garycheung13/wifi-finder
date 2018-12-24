@@ -65,6 +65,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
         return;
     }
 
+    // indicate start of fetching to user w/ spinner
     spinnerSelector.style.display = "inline-block";
 
     // look up the centroid lat/long for the zip code from the local json file
@@ -159,7 +160,5 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
         .finally(() => {
             // hide spinner again, regardless of success/failure
             spinnerSelector.style.display = "none";
-        })
-
-
+        });
 })

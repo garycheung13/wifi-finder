@@ -25,10 +25,13 @@ For local development, follow the development instructions below on how to insta
 **Note on nyc_zips.json:** This file is generated with the python script in `zip_lat_long_data`. Change directories in `zip_lat_long_data` and run `zipclean.py` with python 3 from the terminal to create the file.
 
 ## Design Choices
+![Screenshot of app](screenshots/fullscreen.png)
+
 - **Numbered Markers:** I decided to implement a custom map marker that displays the result number to aid the user with matching map markers with the corresponding result number on the left hand result list. It takes the guesswork out trying to use the location descriptions provided by the data API to identify a specific result marker.
 
 - **Get Directions:** I included a feature where the user can click a link to get directions to a specific hotspot from the results list. I believe that such a feature would be helpful for to users who may want to figure out how to get to the hotspot after learning that it exists.
 
+![Result Image](screenshots/result.png)
 - **Information On result list items:** In the information displayed on the result list, I decided to include the following – location name, location description, the ssid name, and hotspot type(free or limited). Name and description are important for the user since they form a description of where they can find the hotspot. Showing the hotspot's SSID further helps the user by telling them which connection they should connect their device to. Including hotspot type provides a heads-up to users on whether they will need to paid for a connection. For example, some hotspots, such as those provided by Altice USA are public, but only free for a limited usage period. This is very important for users to know if they are looking for a hotspot to use for an extended period of time.
 
 - **Color and Typography:** I choice a primarily blue plattete to convey a calm feeling that also provides enough contrast to seperate the search bar from the search results. Lato was chosen as the typeface for this project for its good readability at multiple sizes and it's serious-but-friendly appearance. Together, the color scheme and and typeface project a welcoming appearance to users of the app.
