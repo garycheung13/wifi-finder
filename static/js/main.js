@@ -1,5 +1,5 @@
 // lat/lon distance function
-// taken from https://www.geodatasource.com/developers/javascript
+// copied from https://www.geodatasource.com/developers/javascript
 function distance(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
         return 0;
@@ -39,9 +39,10 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
     }).addTo(map);
 
-let centerCoords = "";
+let centerCoords = ""; // used to save zip code lat/long info
 const resultsContainer = document.getElementById("results-container");
 const resultsErrorMessage = document.getElementById("results-message");
+const spinnerSelector = document.getElementById("results-spinner");
 
 // make the hotspot search on submit
 // if successful, perform DOM changes to display results and perform map changes
@@ -49,9 +50,9 @@ const resultsErrorMessage = document.getElementById("results-message");
 document.getElementById("zip-search").addEventListener("submit", function (e) {
     // prevent the default submit refresh
     e.preventDefault();
-    // clear markers from previous search
+
+    // clear information from previous search
     wifiMarkersGroup.clearLayers();
-    // remove last search's information from DOM
     resultsContainer.innerHTML = "";
     resultsErrorMessage.innerHTML = "";
 
@@ -63,6 +64,8 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
         resultsErrorMessage.innerHTML = "Your search could not be processed. Please check you that entered a 5-digit NYC zip code."
         return;
     }
+
+    spinnerSelector.style.display = "inline-block";
 
     // look up the centroid lat/long for the zip code from the local json file
     fetch("/static/data/nyc_zips.json")
@@ -153,5 +156,10 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
         .catch(err => {
             resultsErrorMessage.innerHTML = err.message;
         })
+        .finally(() => {
+            // hide spinner again, regardless of success/failure
+            spinnerSelector.style.display = "none";
+        })
+
 
 })
