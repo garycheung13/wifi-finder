@@ -102,7 +102,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
             //hide the placeholder
             document.getElementById("results-placeholder").style.display = "none";
 
-            // create the html for each result and attach to DOM
+            // create the markup for each result and attach to DOM
             resultsContainer.innerHTML = sortedData.map((d, i) => {
                 return `
                 <div class="results-card">
@@ -129,7 +129,6 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                 </div>`;
             }).join(''); // empty string join needed for removing commas
 
-
             map.panTo(centerCoords, {animate: true});
             // insert data into map as markers
             sortedData.forEach(function(d, i){
@@ -153,4 +152,4 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
         .catch(err => {
             resultsErrorMessage.innerHTML = err.message;
         });
-})
+});
