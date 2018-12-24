@@ -26,7 +26,6 @@
 
 .search-input, .search-btn {
     padding: 7px 15px;
-    -webkit-appearance: none;
 
     @include breakpoint-max(medium) {
         display: inline-block;

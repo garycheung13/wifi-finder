@@ -42,7 +42,6 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let centerCoords = ""; // used to save zip code lat/long info
 const resultsContainer = document.getElementById("results-container");
 const resultsErrorMessage = document.getElementById("results-message");
-const spinnerSelector = document.getElementById("results-spinner");
 
 // make the hotspot search on submit
 // if successful, perform DOM changes to display results and perform map changes
@@ -59,14 +58,11 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
     const inputZipCode = document.getElementById("zip-input").value;
     const isValidZipCode = /^\d{5}$/.test(inputZipCode);
 
-    // exit early if user did not provide valid input
+    // end the function execution early if user did not provide valid zip code
     if (!isValidZipCode) {
         resultsErrorMessage.innerHTML = "Your search could not be processed. Please check you that entered a 5-digit NYC zip code."
         return;
     }
-
-    // indicate start of fetching to user w/ spinner
-    spinnerSelector.style.display = "inline-block";
 
     // look up the centroid lat/long for the zip code from the local json file
     fetch("/static/data/nyc_zips.json")
@@ -75,7 +71,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
             if (res.status !== 200) {
                 throw new Error("nyc_zips.json is missing.");
             }
-            return res.json()
+            return res.json();
         })
         .then(data => {
             const inputCoords = data[inputZipCode];
@@ -85,14 +81,14 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                 return fetch(`https://data.cityofnewyork.us/resource/24t3-xqyv.json?$where=within_circle(location_lat_long,${inputCoords[0]},${inputCoords[1]},4000)`)
             } else {
                 // if not found throw error
-                throw new Error("Your search did not return any results. Please check that you entered a 5-digit zip code within NYC.");
+                throw new Error("No nearby wi-fi hotspots could be found. Please check that the zip code you entered is within NYC.");
             }
         })
         .then(res => {
             if (res.status !== 200) {
                 throw new Error("There was problem connecting to the API.")
             }
-            return res.json()
+            return res.json();
         })
         .then(data => {
             // sort by distance from zip code centroid using the lat/long distance formula
@@ -147,7 +143,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                 });
 
                 L.marker([d.latitude, d.longitude], {icon: numberedIcon})
-                .bindPopup(`${i + 1}. ${d.name} <br> ${d.location} <br> <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions (Google Maps)</a>`)
+                .bindPopup(`<h3>${i + 1}. ${d.name}</h3> <h4>${d.location}</h4> <a href="https://www.google.com/maps/dir/?api=1&destination=${d.latitude},${d.longitude}" target="_blank">Get Directions</a>`)
                 .addTo(wifiMarkersGroup);
             });
 
@@ -156,9 +152,5 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
         })
         .catch(err => {
             resultsErrorMessage.innerHTML = err.message;
-        })
-        .finally(() => {
-            // hide spinner again, regardless of success/failure
-            spinnerSelector.style.display = "none";
         });
 })

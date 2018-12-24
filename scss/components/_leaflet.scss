@@ -1,0 +1,9 @@
+.leaflet-popup-content {
+    h3 {
+        @include heading-bold(1rem);
+    }
+
+    h4, a {
+        @include heading(0.75rem);
+    }
+}
