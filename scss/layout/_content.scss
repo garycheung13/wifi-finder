@@ -44,6 +44,11 @@
     background-color: $ui-warning-orange;
     @include heading(1.25rem);
     padding: 15px 25px;
+
+    // hide error message box theres no error
+    &:empty {
+        display: none;
+    }
 }
 
 .content-results__placeholder {

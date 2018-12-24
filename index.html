@@ -24,7 +24,7 @@
         <nav class="container">
             <form id="zip-search">
                 <label>Enter a 5-digit NYC zip code:</label>
-                <input type="text" pattern="[0-9]{5}" title="Five digit NYC zip code" id="zip-input" class="search-input" />
+                <input type="text" title="Five digit NYC zip code" id="zip-input" class="search-input" />
                 <button class="search-btn" type="submit" >Search</button>
             </form>
         </nav>
@@ -34,7 +34,7 @@
             <div class="content-results__heading">
                 <h2>Results</h2>
                 <!-- entry point for error message -->
-                <div id="message-entry"></div>
+                <div id="results-message" class="content-results__message"></div>
             </div>
             <div id="results-container">
             </div>

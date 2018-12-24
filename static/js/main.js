@@ -41,7 +41,7 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let centerCoords = "";
 const resultsContainer = document.getElementById("results-container");
-const messageEntry = document.getElementById("message-entry");
+const resultsErrorMessage = document.getElementById("results-message");
 
 // make the hotspot search on submit
 // if successful, perform DOM changes to display results and perform map changes
@@ -53,9 +53,15 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
     wifiMarkersGroup.clearLayers();
     // remove last search's information from DOM
     resultsContainer.innerHTML = "";
-    messageEntry.innerHTML = "";
+    resultsErrorMessage.innerHTML = "";
 
     const inputZipCode = document.getElementById("zip-input").value;
+    const isValidZipCode = /^\d{5}$/.test(inputZipCode);
+
+    if (!isValidZipCode) {
+        resultsErrorMessage.innerHTML = "Your search could not be processed. Please check you that entered a five-digit NYC zip code."
+        return;
+    }
 
     // look up the centroid lat/long for the zip code from the local json file
     fetch("/static/data/nyc_zips.json")
@@ -133,10 +139,7 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
             map.fitBounds(wifiMarkersGroup.getBounds());
         })
         .catch(err => {
-            messageEntry.innerHTML = `
-                <div class="content-results__message" id="message">
-                    <p>${err.message}</p>
-                </div>`
+            resultsErrorMessage.innerHTML = err.message;
         })
 
 })
