@@ -58,14 +58,21 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
     const inputZipCode = document.getElementById("zip-input").value;
     const isValidZipCode = /^\d{5}$/.test(inputZipCode);
 
+    // exit early if user did not provide valid input
     if (!isValidZipCode) {
-        resultsErrorMessage.innerHTML = "Your search could not be processed. Please check you that entered a five-digit NYC zip code."
+        resultsErrorMessage.innerHTML = "Your search could not be processed. Please check you that entered a 5-digit NYC zip code."
         return;
     }
 
     // look up the centroid lat/long for the zip code from the local json file
     fetch("/static/data/nyc_zips.json")
-        .then(res => res.json())
+        .then(res => {
+            // checking can fail if the file is missing
+            if (res.status !== 200) {
+                throw new Error("nyc_zips.json is missing.");
+            }
+            return res.json()
+        })
         .then(data => {
             const inputCoords = data[inputZipCode];
             // if it was found, proceed to make api call to lookup the hotspot locations
@@ -74,10 +81,15 @@ document.getElementById("zip-search").addEventListener("submit", function (e) {
                 return fetch(`https://data.cityofnewyork.us/resource/24t3-xqyv.json?$where=within_circle(location_lat_long,${inputCoords[0]},${inputCoords[1]},4000)`)
             } else {
                 // if not found throw error
-                throw new Error("Your search did not return any results. Please check that you entered a zip code within NYC.");
+                throw new Error("Your search did not return any results. Please check that you entered a 5-digit zip code within NYC.");
             }
         })
-        .then(res => res.json())
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error("There was problem connecting to the API.")
+            }
+            return res.json()
+        })
         .then(data => {
             // sort by distance from zip code centroid using the lat/long distance formula
             // then truncate to first five entries

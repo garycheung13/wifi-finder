@@ -1,10 +1,9 @@
 .map-number-icon {
     text-align: center;
     background-image: url("/static/images/pin.png");
-    color: black;
-    @include heading-bold(12px);
 }
 
 .map-number-icon-text {
     margin-top: 4px;
+    @include heading-bold(12px); //using px here because leaflet icons are fixed size
 }

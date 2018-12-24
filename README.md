@@ -22,6 +22,8 @@ For local development, follow the development instructions below on how to insta
 2. Install gulp and it's dependencies using `npm install` or `yarn install`.
 3. From the root directory, run `gulp` in your terminal to start the browser-snyc server. (Browser should launch automatically. If it does not, go to `localhost:3000` in your browser.)
 
+**Note on nyc_zips.json:** This file is generated with the python script in `zip_lat_long_data`. Change directories in `zip_lat_long_data` and run `zipclean.py` with python 3 from the terminal to create the file.
+
 ## Design Choices
 - **Numbered Markers:** I decided to implement a custom map marker that displays the result number to aid the user with matching map markers with the corresponding result number on the left hand result list. It takes the guesswork out trying to use the location descriptions provided by the data API to identify a specific result marker.
 

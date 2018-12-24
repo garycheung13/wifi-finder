@@ -28,6 +28,10 @@
     }
 }
 
+.results-container {
+    overflow-y: scroll;
+}
+
 .results-card__details {
     display: flex;
     flex-wrap: wrap;
